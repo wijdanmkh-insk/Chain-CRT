@@ -40,6 +40,12 @@ const char* ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 7 * 3600;
 const int daylightOffset_sec = 0;
 
+struct MPUData{
+    sensors_event_t accel;
+    sensors_event_t gyro;
+    sensors_event_t temp;
+};
+
 //DEKLARASI FUNGSI
 void connect(uint8_t *connected);
 void displayText(char *text[]);
@@ -196,16 +202,10 @@ void displaytext(char *text[], uint8_t max){
 }
 
 void startMPU(){
-  sensors_event_t a, g, temp;
-  mpu.getEvent(&a, &g, &temp);
-  Serial.print("Accelerations in m/s^2 (x, y, z) : ");
-  Serial.print(a.acceleration.x, a.acceleration.y, a.acceleration.z);
-
-  Serial.print("Rotations in rad/s (x, y, z) : ");
-  Serial.print(g.gyro.x, g.gyro.y, g.gyro.z);
-
-  Serial.print("Temperature in C : ");
-  Serial.print(temp.temperature);
+    MPUData data;
+    mpu.getEvent(&a, &g, &temp);
+      
+    return data;
 }
 
 void write_events;
